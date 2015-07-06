@@ -1,0 +1,315 @@
+* ┌───────────────────────────────────────────────────────────────────────────┐
+* │≡≡≡ UTIL.LIB - Biblioteca de Funcöes Específicas para Clipper Summer'87 ≡≡≡│
+* ├───────────────────────────────────────────────────────────────────────────┤
+* │                    Utilizada pela Teenagers Associates                    │
+* │                                                                           │
+* │ Autores...........: Wagner Longo de Castro                                │
+* │ Ultima atualizaçäo: 21/09/92                                              │
+* │ No de funçöes.....: 30                                                    │
+* ├───────────────────────────────────────────────────────────────────────────┤
+* │                     Indice das Funçöes da Biblioteca                      │
+* ╞══════════»» BCO DE DADOS ««════════╤═══════════»» IMPRESSAO ««════════════╡
+* │ - ADDDBF()    - ADICIONA BCO DADOS │ - PRTON()     - ESPERA AVISO IMPRES. │
+* │ - INITDBF()   -     ABRE BCO DADOS │ - ESCPRINT()  - INTERROMPE IMPRESSAO │
+* │ - INDEXDBF()  -   INDEXA BCO DADOS │ - HEAD()      -     COLOCA CABECALHO │
+* │ - CLOSEDBF()  -    FECHA BCO DADOS │ - FOOT()      -     COLOCA    RODAPE │
+* │ - ZAPDBF()    -    LIMPA BCO DADOS │                                      │
+* │ - SPREAD()    -  PLANILHA DE DADOS ╞════════»» ENTRADA DE DADOS ««════════╡
+* ╞═════════════»» TELAS ««════════════╡ - ACESSCODE() -        AGUARDA SENHA │
+* │ - SIGNAL()    - QUADRO ADVERTENCIA ╞═══════»» VALIDACAO DE DADOS ««═══════╡
+* │ - MESSAGE()   - MENSAGEM NO RODAPE │ - CHKGET()    - VALIDA ENTRADA - GET │
+* │ - WARNING()   -    AVISO NO RODAPE │ - VERIFY()    - VERIFICA INTEGRIDADE │
+* │ - CONFIRM()   -        CONFIRMACAO ╞════════»» FUNCOES SORTIDAS ««════════╡
+* │ - DSP()       -  MOSTRA EM REVERSO │                                      │
+* │ - FADE()      -  EFEITOS ESPECIAIS │ - NAME()      - RETORNA NOMES COMUNS │
+* └────────────────────────────────────┴──────────────────────────────────────┘
+* ┌───────────────────────────────────────────────────────────────────────────┐
+* │≡≡≡ UTIL.LIB - Biblioteca de Funcöes Específicas para Clipper Summer'87 ≡≡≡│
+* ├───────────────────────────────────────────────────────────────────────────┤
+* │                    Utilizada pela Teenagers Associates                    │
+* │                                                                           │
+* │  Variáveis Pré-Definidas:                                                 │
+* │  - SYS_CR  - Cores Empregadas pelas Funçöes          <Matriz - 10 elem.>  │
+* │  - SYS_FM  - Frames Empregados pelas Funçöes         <Matriz - 13 elem.>  │
+* │  - SYS_PRC - Preenchimentos Empregados pelas Funçöes <Matriz - 05 elem.>  │
+* ├───────────────────────────────────────────────────────────────────────────┤
+* │                   Cores padröes da Bliblioteca UTIL.LIB                   │
+* │                                                                           │
+* │       01 - "N/W,W+/BG,,,GR+/B"  -  Cor de Borda de Quadros Internos       │
+* │       02 - "W/B,W+/BG,,,W/RB"   -  Cor de Preenchimento (Say/Get).        │
+* │       03 - "W+/BG,W+/B,,,W/RB"  -  Cor de Escrita em destaque 1.          │
+* │       04 - "W/B,W+/BG,,,W+/B"   -  Cor de Edicao em Menu Prompt().        │
+* │       05 - "G+/B,GR+/BG,,,W/RB" -  Cor de Escrita em Destaque 2.          │
+* │       06 - "B/N,W+/BG,,,W/RB"   -  Cor de Preenchimento do hachurado.     │
+* │       07 - "W+/G,W+/BG,,,W+/RB" -  Cor de Escrita em destaque 3.          │
+* │       08 - "W+/B,W+/BG,,,N/W"   -  Cor de Quadros para Indexaçäo.         │
+* │       09 - "W+/R,GR+/GR,,,W+/R" -  Cor de Quadros de Advertência.         │
+* │       10 - "W+/B,BG/BG,,,BG/BG" -  Cor de Ediçäo de Senhas.               │
+* │                                                                           │
+* └───────────────────────────────────────────────────────────────────────────┘
+
+*----------------- FUNCOES ESPECIAIS DA BIBLIOTECA UTIL.LIB ------------------*
+
+*------------------------FUNCOES ESPECIAIS PARA ARQUIVOS ---------------------*
+
+*******************************************************************************
+* FUNCAO: ADDDBF                                                              *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: INCLUI BCOS DE DADOS NA LISTA                                   *
+* SINTAXE   : ADDDBF (nome do arquivo,comentario,alias,matriz de nomes de     *
+*                     indices,matriz de comentarios de indices)               *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: INITDBF                                                             *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: ABRE OS ARQUIVOS COM SEUS RESPECTIVOS INDICES                   *
+* SINTAXE   : INITDBF (matriz logica com os arquivos a abrir)                 *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: INDEXDBF                                                            *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: INDEXA OS ARQUIVOS DA LISTA                                     *
+* SINTAXE   : INDEXDBF (matriz logica com os arquivos a indexar,nivel index.) *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: CLOSEDBF                                                            *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: FECHA OS ARQUIVOS DA LISTA                                      *
+* SINTAXE   : CLOSEDBF (matriz logica com os arquivos a fechar)               *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: ZAPDBF                                                              *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: LIMPA OS ARQUIVOS DA LISTA                                      *
+* SINTAXE   : ZAPDBF (matriz logica com os arquivos a limpar)                 *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: SPREAD                                                              *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: CRIA UMA PLANILHA DE APRESENTACAO DE DADOS NA TELA.             *
+* SINTAXE   : SPREAD (linha 1,coluna 1,linha 2,coluna 2,area,condicao,UDF 1,  *
+*             UDF 2,UDF 3,UDF 4)                                              *
+*   UDF 1 -> Responsavel pela Visualizacao e Limpeza da regiao da planiha.    *
+*   Parametros Passados: Linha Atual,Tamanho da Janela                        *
+*                        (.T.) se p/ Visualizacao e (.F.) se p/ Limpeza.      *
+*   UDF 2 -> Responsavel pela Visualizacao de Dados Extensos em outra regiao  *
+*            da tela (Especie de MESSAGE da planilha).                        *
+*   Parametros Passados: Linha Atual                                          *
+*   UDF 3 -> Responsavel pela Edicao dos dados da Planilha.                   *
+*   Parametros Passados: Linha Atual,Tamanho da Janela                        *
+*   UDF 4 -> Responsavel pela Visualizacao de dados constantemente alterados  *
+*            como a hora, e teclas de excessao.                               *
+*   Parametros Passados: Ultima Tecla Pressionada,Linha Atual,Tamanho Janela  *
+*******************************************************************************
+
+*------------------------ FUNCOES ESPECIAIS PARA TELAS -----------------------*
+
+*******************************************************************************
+* FUNCAO: SIGNAL                                                              *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: MOSTRA UM QUADRO DE ADVERTENCIA NA TELA                         *
+* SINTAXE   : SIGNAL (Titulo 1,Titulo 2,Titulo 3)                             *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: MESSAGE                                                             *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: MOSTRA UMA MENSAGEM EM UMA LINHA DEFINIDA                       *
+* SINTAXE   : MESSAGE (Titulo,Flag de Centralizacao,Flag de Atributo de Cor)  *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: WARNING                                                             *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: MOSTRA UMA MENSAGEM E AGUARDA UMA TECLA QUALQUER                *
+* SINTAXE   : WARNING(Titulo,Flag de Centralizacao,Tempo de Espera)           *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: CONFIRM                                                             *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: SOLICITA A ENTRADA DE UMA CONFIRMACAO                           *
+* SINTAXE   : CONFIRM (Referencia a Confirmacao)                              *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: DSP                                                                 *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: MOSTRA OS DADOS NA COORDENADA ESPECIFICADA COM COR REALCE       *
+* SINTAXE   : DSP (Linha,Coluna,Mensagem,Tamanho Maximo)                      *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: FADE                                                                *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: FAZ EFEITOS ESPECIAIS DE ENTRADA DE TELA (Explode,Implode,Etc.) *
+* SINTAXE   : FADE (Linha 1,Coluna 1,Linha 2,Coluna 2,Tela,Tipo)              *
+*******************************************************************************
+
+*--------------------- FUNCOES ESPECIAIS PARA IMPRESSAO ----------------------*
+
+*******************************************************************************
+* FUNCAO: PRTON                                                               *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: SOLICITA A ATIVACAO DA IMPRESSORA DA PORTA LPT1                 *
+* SINTAXE   : PRTON()  -  RETORNA UM RESULTADO LOGICO CONFORME A IMPRESSORA   *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: ESCPRINT                                                            *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: ESCAPA DE UMA IMPRESSAO DE RELATORIO                            *
+* SINTAXE   : ESCPRINT () - RETORNA UM RESULTADO LOGICO INDICANDO SE CONTINUA *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: HEAD                                                                *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: IMPRIME UM CABECALHO DE RELATORIO                               *
+* SINTAXE   : HEAD (Titulo Principal,Titulo do Sistema,                       *
+*                   Sub-Titulo 1,Sub-Titulo 2,Tamanho em Colunas)             *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: FOOT                                                                *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: IMPRIME UM RODAPE DE RELATORIO                                  *
+* SINTAXE   : HEAD (Mensagem 1,Mensagem 2,Titulo do Rodape,                   *
+*                   Tamanho em Colunas)                                       *
+*******************************************************************************
+
+*----------------- FUNCOES ESPECIAIS PARA ENTRADAS DE DADOS ------------------*
+
+*******************************************************************************
+* FUNCAO: ACESSCODE                                                           *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: PERMITE A ENTRADA DE UMA SENHA DE ACESSO                        *
+* SINTAXE   : ACESSCODE (Senha Valida,Picture para a senha a ser digitada)    *
+* TABELA    : VALORES DE RETORNO:                                             *
+*                                  0 -> SENHA DIGITADA CORRETAMENTE           *
+*                                  1 -> SENHA NAO DIGITADA                    *
+*                                  2 -> SENHA DIGITADA ERRONEAMENTE           *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: ADDSCR                                                              *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: ADICIONA UMA TELA DE EDICAO NA MATRIZ DE TELAS                  *
+* SINTAXE   : ADDSCR (variaveis,telas,mascaras,linhas,colunas,validades,cor)  *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: DSPSCR                                                              *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: MOSTRA A TELA DE EDICAO DAS TELAS DA LISTA                      *
+* SINTAXE   : DSPSCR (codigo da tela)                                         *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: DSPPCT                                                              *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: MOSTRA A MASCARA DE EDICAO DAS TELAS DA LISTA                   *
+* SINTAXE   : DSPPCT (codigo da tela)                                         *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: EDTSCR                                                              *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: EDITA A MASCARA DE EDICAO DAS TELAS DA LISTA                    *
+* SINTAXE   : EDTSCR (codigo da tela)                                         *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: ZAPSCR                                                              *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: RETIRA A TELA DE EDICAO DA TELA RESTAURANDO-A                   *
+* SINTAXE   : ZAPSCR (codigo da tela)                                         *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: READSCR                                                             *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: LE OS DADOS COLOCADOS PELA FUNCAO EDTSCR()                      *
+* SINTAXE   : READSCR (codigo da tela)                                        *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: CLEARSCR                                                            *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: CANCELA OS DADOS COLOCADOS PELA FUNCAO EDTSCR()                 *
+* SINTAXE   : CLEARSCR ()                                                     *
+*******************************************************************************
+
+*--------------- FUNCOES ESPECIAIS PARA CRIACAO DE MENUS ---------------------*
+
+*******************************************************************************
+* FUNCAO: OPTMENU                                                             *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: CRIA UM MENU POP-UP EM JANELA                                   *
+* SINTAXE   : OPTMENU (Matriz de Opcoes,Titulo da janela,Linha superior,      *
+*                      Coluna superior,Linha inferior,Coluna inferior)        *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: ADDMENU                                                             *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: ADICIONA UM MENU NA MATRIZ DE MENUS                             *
+* SINTAXE   : ADDMENU (opcoes,hotkeys,linha1,coluna1,linha2,coluna2,          *
+*                      titulo da janela,frame,cor,UDF,mensagens)              *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: BOXMENU                                                             *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: MOSTRA A JANELA DE OPCOES DO MENU DA LISTA                      *
+* SINTAXE   : BOXMENU (codigo do menu)                                        *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: READMENU                                                            *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: LE O MENU DA LISTA                                              *
+* SINTAXE   : READMENU (codigo do menu) - RETORNA A OPCAO ESCOLHIDA           *
+*******************************************************************************
+
+*******************************************************************************
+* FUNCAO: ZAPMENU                                                             *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: RETIRA O MENU DA TELA RESTAURANDO-A                             *
+* SINTAXE   : ZAPMENU (codigo do menu)                                        *
+*******************************************************************************
+
+*---------------- FUNCOES ESPECIAIS PARA VALIDACAO DE DADOS ------------------*
+
+*******************************************************************************
+* FUNCAO: CHKGET                                                              *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: VERIFICA A INTEGRIDADE DE UM GET ATIVO                          *
+* SINTAXE   : CHKGET (codigo a validar,condicao,mensagem de erro,area do      *
+*                     bco de dados a procurar,UDF de apoio <caso a condicao   *
+*                     for verdadeira.)                                        *
+*******************************************************************************
+
+*--------------- FUNCOES ESPECIAIS PARA PROTECAO DE SISTEMAS -----------------*
+
+*******************************************************************************
+* FUNCAO: VERIFY                                                              *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: VERIFICA A INTEGRIDADE DO SISTEMA                               *
+* SINTAXE   : VERIFY (codigo,tipo de verificacao) 1> SERIAL         2> LABEL  *
+*******************************************************************************
+
+*------------------------- FUNCOES ESPECIAIS SORTIDAS ------------------------*
+
+*******************************************************************************
+* FUNCAO: NAMES                                                               *
+*-----------------------------------------------------------------------------*
+* UTILIZACAO: RETORNA NOMES COMUNS ENTRE DIVERSIFICADOS SISTEMAS              *
+* SINTAXE   : NAMES (codigo do nome)                                          *
+*******************************************************************************
+
